@@ -7,15 +7,16 @@ metadata:
   labels:
     app: sumo-collector-healer
 data:
-  ANSIBLE_USER: 'DOMAIN\user'
   ANSIBLE_CONNECTION: 'winrm'
+  ANSIBLE_HOST_DOMAIN: 'example.com'
   ANSIBLE_PORT: '5985'
+  ANSIBLE_STDOUT_CALLBACK: debug
+  ANSIBLE_USER: 'MYDOMAIN\myuser'
   ANSIBLE_WINRM_SCHEME: 'http'
   ANSIBLE_WINRM_SERVER_CERT_VALIDATION: 'ignore'
   ANSIBLE_WINRM_TRANSPORT: 'ntlm'
-  ANSIBLE_HOST_DOMAIN: 'domain if needed'
   DOMAIN: example.com
-  INTERVAL_SECONDS: "3600"
-  PYTHONUNBUFFERED: '1'
-  SUMO_ACCESS_ID: 'yourid'
+  INTERVAL_SECONDS: '3600'
+  PYTHONUNBUFFERED: "1"
+  SUMO_ACCESS_ID: 'myid'
   SUMO_URL: 'https://api.us2.sumologic.com/api/v1/collectors'
