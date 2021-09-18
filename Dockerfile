@@ -9,7 +9,4 @@ COPY app.py .
 COPY main.sh .
 COPY rcmd .
 COPY vars.yaml.envsubst .
-# ENTRYPOINT [ "bash" ]
-# CMD [ "main.sh" ]
-ENTRYPOINT [ "python3" ]
-CMD [ "app.py" ]
+ENTRYPOINT [ "python3", "-u", "app.py" ]
