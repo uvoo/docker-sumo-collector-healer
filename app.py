@@ -87,7 +87,7 @@ def test_is_valid_host_or_ipaddr(host):
 def main():
     while True:
         get_stopped_collectors(DOMAIN)
-        r = run([f"ansible-playbook -i {inventory_file} playbookSumoCollector.yaml"],
+        r = run([f"ansible-playbook -i {inventory_file} playbookSumoCollector.yaml | sed 's/\\n/\n/g'"],
                  shell=True, stdout=PIPE, stderr=PIPE)
         print(r)
         # logging.info(r)
