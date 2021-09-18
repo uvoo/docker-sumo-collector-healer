@@ -2,3 +2,4 @@ vars.yaml
 .env
 .venv
 .dockerignore
+.inventory.yaml

@@ -1,3 +1,4 @@
 ansible
-requests
 pywinrm
+requests
+wheel

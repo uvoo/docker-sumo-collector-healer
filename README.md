@@ -38,3 +38,17 @@ Single Example with .env set to your environment
 envsubst < vars.yaml.envsubst > vars.yaml
 ansible-playbook -i myhostoripaddr, playbookSumoCollector.yaml
 ```
+
+# Python Virtual Environment
+Using Python3 venv
+```
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -U pip
+pip install -r requirements.txt
+```
+
+Exit virtual environment
+```
+deactivate
+```
