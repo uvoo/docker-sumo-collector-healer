@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sumo-collector-healer
+  namespace: sumo
+spec:
+  selector:
+    matchLabels:
+      app: sumo-collector-healer
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sumo-collector-healer
+    spec:
+      containers:
+      - name: sumo-collector-healer
+        image: uvoo/sumo-collector-healer:latest
+        envFrom:
+        - configMapRef:
+            name: sumo-collector-healer
+        env:
+        - name: INTERVAL_SECONDS
+          value: '3600'
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: ANSIBLE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sumo-collector-healer
+              key: ANSIBLE_PASSWORD

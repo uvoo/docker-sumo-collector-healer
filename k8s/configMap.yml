@@ -1,0 +1,23 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sumo-collector-healer
+  namespace: sumo
+  labels:
+    app: sumo-collector-healer
+data:
+  ANSIBLE_USER: 'DOMAIN\user'
+  ANSIBLE_PASSWORD: 'yourpass'
+  ANSIBLE_CONNECTION: 'winrm'
+  ANSIBLE_PORT: '5985'
+  ANSIBLE_WINRM_SCHEME: 'http'
+  ANSIBLE_WINRM_SERVER_CERT_VALIDATION: 'ignore'
+  ANSIBLE_WINRM_TRANSPORT: 'ntlm'
+  ANSIBLE_HOST_DOMAIN: 'domain if needed'
+  DOMAIN: example.com
+  INTERVAL_SECONDS: "3600"
+  PYTHONUNBUFFERED: '1'
+  SUMO_ACCESS_ID: 'yourid'
+  SUMO_ACCESS_KEY: 'yourkey'
+  SUMO_URL: 'https://api.us2.sumologic.com/api/v1/collectors'
