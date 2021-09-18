@@ -17,7 +17,7 @@ from requests.auth import HTTPBasicAuth
 SUMO_ACCESS_ID = os.environ.get('SUMO_ACCESS_ID')
 SUMO_ACCESS_KEY = os.environ.get('SUMO_ACCESS_KEY')
 SUMO_URL = os.environ.get('SUMO_URL')
-INTERVAL_SECONDS = os.environ.get('INTERVAL_SECONDS', 3600)
+INTERVAL_SECONDS = int(os.environ.get('INTERVAL_SECONDS', 3600))
 DOMAIN = os.environ.get('DOMAIN')
 
 inventory_file = ".inventory.yaml"
