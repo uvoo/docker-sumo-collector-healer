@@ -29,7 +29,7 @@ Set environment variables in bash
 
 Run service which loops depending on INTERVAL
 ```
-./main.sh
+python3 app.py 
 ```
 
 Single Example with .env set to your environment
