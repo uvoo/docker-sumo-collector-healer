@@ -91,9 +91,14 @@ def main():
         # r = run([f"ansible-playbook -i {inventory_file} playbookSumoCollector.yaml"],
         #          shell=True, stdout=PIPE, stderr=PIPE)
         r = run([f"ansible-playbook -i {inventory_file} playbookSumoCollector.yaml"],
-                 shell=True, capture_output=True).strip()
+                 shell=True, capture_output=True)
         # r = r.strip() 
-        print(r)
+        print("E: ==========================================")
+        err = r.stderr.decode().replace("\n", "")
+        print(err)
+        print("I: ==========================================")
+        out = r.stdout.decode().replace("\n", "")
+        print(out)
         # logging.info(r)
         print(f"Waiting {INTERVAL_SECONDS} seconds for next loop.")
         time.sleep(INTERVAL_SECONDS)
