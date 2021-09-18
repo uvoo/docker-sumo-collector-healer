@@ -17,7 +17,13 @@ from requests.auth import HTTPBasicAuth
 SUMO_ACCESS_ID = os.environ.get("SUMO_ACCESS_ID")
 SUMO_ACCESS_KEY = os.environ.get("SUMO_ACCESS_KEY")
 SUMO_URL = os.environ.get("SUMO_URL")
+INTERVAL_SECONDS = os.environ.get(INTERVAL_SECONDS, 3600)
+DOMAIN = os.environ.get(DOMAIN)
+
 inventory_file = ".inventory.yaml"
+
+r = run([f"envsubst < vars.yaml.envsubst > vars.yaml"],
+         shell=True, stdout=PIPE, stderr=PIPE)
 
 
 def get_stopped_collectors(domain):
@@ -79,20 +85,14 @@ def test_is_valid_host_or_ipaddr(host):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Run systems service checker.')
-    parser.add_argument('-i', '--interval-in-seconds', required=True, type=int,
-                        help='Interval in seconds to check sumologic.com and try and restart service with "Stopped Collector" status.')
-    parser.add_argument('-d', '--domain', required=True, type=str,
-                        help='Domain of hosts')
-    args = parser.parse_args()
     while True:
-        get_stopped_collectors(args.domain)
+        get_stopped_collectors(DOMAIN)
         r = run([f"ansible-playbook -i {inventory_file} playbookSumoCollector.yaml"],
                  shell=True, stdout=PIPE, stderr=PIPE)
         print(r)
-        logging.info(r)
-        print(f"Waiting {args.interval_in_seconds} seconds for next loop.")
-        time.sleep(args.interval_in_seconds)
+        # logging.info(r)
+        print(f"Waiting {INTERVAL_SECONDS} seconds for next loop.")
+        time.sleep(INTERVAL_SECONDS)
 
 
 if __name__ == "__main__":
