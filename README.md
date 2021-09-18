@@ -32,7 +32,9 @@ Run service which loops depending on INTERVAL
 ./main.sh
 ```
 
-Single Example
+Single Example with .env set to your environment
 ```
+. .env
+envsubst < vars.yaml.envsubst > vars.yaml
 ansible-playbook -i myhostoripaddr, playbookSumoCollector.yaml
 ```
