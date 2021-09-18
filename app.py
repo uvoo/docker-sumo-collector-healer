@@ -2,6 +2,7 @@
 import argparse
 import ipaddress
 import json
+import logging
 import os
 import pprint
 import socket
@@ -42,6 +43,7 @@ def get_stopped_collectors(domain):
             continue
         if "windows" in os.lower():
             print(host)
+            logging.info(host)
             hosts.append(host)
         elif "linux" in os.lower():
             pass
@@ -88,6 +90,7 @@ def main():
         r = run([f"ansible-playbook -i {inventory_file} playbookSumoCollector.yaml"],
                  shell=True, stdout=PIPE, stderr=PIPE)
         print(r)
+        logging.info(r)
         print(f"Waiting {args.interval_in_seconds} seconds for next loop.")
         time.sleep(args.interval_in_seconds)
 

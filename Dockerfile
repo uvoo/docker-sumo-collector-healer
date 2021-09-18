@@ -9,5 +9,5 @@ COPY app.py .
 COPY main.sh .
 COPY rcmd .
 COPY vars.yaml.envsubst .
-
-CMD [ "./main.sh" ]
+ENTRYPOINT [ "bash" ]
+CMD [ "main.sh" ]
