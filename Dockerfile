@@ -2,7 +2,7 @@ FROM python:slim-bullseye
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y ansible gettext-base
+RUN apt-get update && apt-get install -y ansible gettext-base python3-requests
 
 COPY app.py .
 COPY main.sh .
