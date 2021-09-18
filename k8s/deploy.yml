@@ -19,13 +19,5 @@ spec:
         envFrom:
         - configMapRef:
             name: sumo-collector-healer
-        env:
-        - name: INTERVAL_SECONDS
-          value: '3600'
-        - name: PYTHONUNBUFFERED
-          value: "1"
-        - name: ANSIBLE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: sumo-collector-healer
-              key: ANSIBLE_PASSWORD
+        - secretRef:
+            name: sumo-collector-healer
