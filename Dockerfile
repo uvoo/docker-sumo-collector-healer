@@ -1,16 +1,12 @@
-FROM python:slim-buster
+FROM python:slim-bullseye
 
 WORKDIR /app
 
-# SHELL ["/bin/bash", "-c"]
-COPY requirements.txt requirements.txt
-RUN python3 -m venv venv
-RUN . venv/bin/activate
-RUN pip3 install -r requirements.txt
+RUN apt-get update && apt-get install -y ansible
 
-# COPY . .
-COPY rcmd .
 COPY app.py .
+COPY main.sh .
+COPY rcmd .
 COPY vars.yaml.envsubst .
 
 CMD [ "main.sh"]
