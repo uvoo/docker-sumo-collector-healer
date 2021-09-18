@@ -70,13 +70,14 @@ def fix_stopped_collectors():
             try:
                 # print(f"host: {host} alive: {alive} os: {os}")
                 print(f"Running restartSumo.ps1 on {host} where alive: {alive} os: {os}.")
-                r = run(["./rcmd", host, "restartSumo.ps1"],
-                        stdout=PIPE, stderr=PIPE)
+                r = run([f"ansible-playbook -i {host}, playbookSumoCollector.yaml"],
+                        shell=True, stdout=PIPE, stderr=PIPE)
+                print(r)
                 if r.stderr:
                     sys.exit(r.stderr.decode())
             except Exception as e:
                 # return
-                print(e) 
+                print(e)
         elif "linux" in os.lower():
             pass
             # print(f"{host} operating system is Linux.")
@@ -89,8 +90,9 @@ def fix_stopped_collectors():
 def runcmdd(host, servicename):
     print(f"{host}: Restart service for {servicename}.")
     try:
-        r = run(["./rcmd", host, "restartSumo.ps1"],
-                stdout=PIPE, stderr=PIPE)
+        r = run([f"ansible-playbook -i {host}, playbookSumoCollector.yaml"],
+                 shell=True, stdout=PIPE, stderr=PIPE)
+        print(r)
         if r.stderr:
             sys.exit(r.stderr.decode())
     except:
