@@ -22,11 +22,12 @@ Then edit .env and set your personal preferences
 nano .env
 ```
 
+Set environment variables in bash
 ```
 . .env
 ```
 
-Run
+Run service which loops depending on INTERVAL
 ```
 ./main.sh
 ```
