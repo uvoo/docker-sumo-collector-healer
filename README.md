@@ -31,3 +31,8 @@ Run service which loops depending on INTERVAL
 ```
 ./main.sh
 ```
+
+Single Example
+```
+ansible-playbook -i myhostoripaddr, playbookSumoCollector.yaml
+```
