@@ -9,4 +9,4 @@ COPY main.sh .
 COPY rcmd .
 COPY vars.yaml.envsubst .
 
-CMD [ "main.sh"]
+CMD [ "./main.sh" ]
