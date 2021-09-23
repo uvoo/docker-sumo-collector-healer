@@ -2,3 +2,4 @@
 set -e
 echo $DOCKERHUB_TOKEN | docker login --username $DOCKERHUB_USERNAME --password-stdin
 ./buildPush.sh
+docker logout
