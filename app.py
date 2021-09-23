@@ -1,14 +1,9 @@
 #!/usr/bin/env python3
-import argparse
 import ipaddress
-import json
 import logging
 import os
-import pprint
 import socket
-from subprocess import PIPE, run, call, check_output
-import subprocess
-import sys
+from subprocess import PIPE, run
 import time
 
 import requests
@@ -22,15 +17,16 @@ DOMAIN = os.environ.get('DOMAIN')
 
 inventory_file = ".inventory.yaml"
 
-r = run([f"envsubst < vars.yaml.envsubst > vars.yaml"],
-         shell=True, stdout=PIPE, stderr=PIPE)
+r = run(["envsubst < vars.yaml.envsubst > vars.yaml"],
+        shell=True, stdout=PIPE, stderr=PIPE)
 
 
 def get_stopped_collectors(domain):
-    r = requests.get(SUMO_URL, auth=HTTPBasicAuth(SUMO_ACCESS_ID, SUMO_ACCESS_KEY))
+    r = requests.get(SUMO_URL,
+                     auth=HTTPBasicAuth(SUMO_ACCESS_ID, SUMO_ACCESS_KEY))
     hosts = []
     if r.status_code != 200:
-        print("ERROR: API 401: Invalid auth? Check user/pass or api token combo.")
+        print("ERROR: API 401: Invalid auth? Check user/pass/token.")
         return 1
     items = r.json()['collectors']
     for item in items:
@@ -39,13 +35,14 @@ def get_stopped_collectors(domain):
         alive = item['alive']
 
         if test_is_valid_host_or_ipaddr(host) != 0:
-          continue
-        if(alive != False):
+            continue
+        if alive is not False:
             continue
         try:
             os = ""
             os = item['osName']
-        except:
+        except Exception as e:
+            print(e)
             continue
         if "windows" in os.lower():
             print(host)
@@ -62,8 +59,7 @@ def get_stopped_collectors(domain):
 
 def create_ansible_inventory(hosts):
     txt = ("all:\n"
-          "  hosts:\n"
-          )
+           "  hosts:\n")
     for host in hosts:
         txt = txt + f"    {host}:\n"
     with open(inventory_file, 'w') as f:
@@ -74,12 +70,14 @@ def test_is_valid_host_or_ipaddr(host):
     try:
         ipaddress.ip_address(host)
         return 0
-    except:
+    except Exception as e:
+        print(e)
         pass
     try:
         socket.gethostbyname(host)
         return 0
-    except:
+    except Exception as e:
+        print(e)
         # print(f"E: {host} is not valid ip address or can't be resolved!")
         return 1
 
@@ -87,19 +85,15 @@ def test_is_valid_host_or_ipaddr(host):
 def main():
     while True:
         get_stopped_collectors(DOMAIN)
-        # r = run([f"ansible-playbook -i {inventory_file} playbookSumoCollector.yaml | sed 's/\\n/\n/g'"],
-        # r = run([f"ansible-playbook -i {inventory_file} playbookSumoCollector.yaml"],
-        #          shell=True, stdout=PIPE, stderr=PIPE)
-        r = run([f"ansible-playbook -i {inventory_file} playbookSumoCollector.yaml"],
-                 shell=True, capture_output=True)
-        # r = r.strip() 
+        c = f"ansible-playbook -i {inventory_file} playbookSumoCollector.yaml"
+        r = run([c],
+                shell=True, capture_output=True)
         print("E: ==========================================")
         err = r.stderr.decode().replace("\n", "")
         print(err)
         print("I: ==========================================")
         out = r.stdout.decode().replace("\n", "")
         print(out)
-        # logging.info(r)
         print(f"Waiting {INTERVAL_SECONDS} seconds for next loop.")
         time.sleep(INTERVAL_SECONDS)
 

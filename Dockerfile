@@ -1,5 +1,4 @@
 FROM ubuntu:latest
-# FROM python:slim-bullseye
 
 WORKDIR /app
 
